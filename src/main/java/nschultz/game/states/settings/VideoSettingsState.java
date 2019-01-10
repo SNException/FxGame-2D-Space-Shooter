@@ -160,7 +160,9 @@ public final class VideoSettingsState extends GameState {
                             options[2] = "Enable lighting";
                         }
                     } else {
-                        game().switchGameState(new SettingsState(game()));
+                        GameState newState = new SettingsState(game());
+                        newState.setLastGameState(this.getLastGameState());
+                        game().switchGameState(newState);
                     }
                     break;
             }

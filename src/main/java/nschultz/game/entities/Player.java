@@ -29,10 +29,12 @@ import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import nschultz.game.io.SoundFile;
 import nschultz.game.io.SpriteSheet;
+import nschultz.game.states.MenuState;
 import nschultz.game.ui.AlphaParticle;
 import nschultz.game.ui.GameCanvas;
 import nschultz.game.util.TimeDelayedProcedure;
@@ -63,6 +65,8 @@ public final class Player extends Entity {
     private boolean isMovingDown;
     private boolean isMovingRight;
     private boolean isMovingLeft;
+    private boolean isFaster;
+    private boolean playerPaused;
     private boolean shootBullet;
 
     private final TimeDelayedProcedure bulletDelay = new TimeDelayedProcedure(
@@ -83,6 +87,7 @@ public final class Player extends Entity {
         this.game = game;
         image[0] = sprite1;
         image[1] = sprite2;
+        playerPaused = false;
     }
 
     @Override
@@ -136,30 +141,37 @@ public final class Player extends Entity {
         }
     }
 
+    private double getCurrentVelocity()
+    {
+        if (isFaster)
+            return velocity;
+        else return velocity/2;
+    }
+
     private void checkMoveUp() {
         if (isMovingUp) {
-            if (yPosition() - velocity <= 0) {
+            if (yPosition() - getCurrentVelocity() <= 0) {
                 return;
             }
-            moveUp(velocity);
+            moveUp(getCurrentVelocity());
         }
     }
 
     private void checkMoveDown() {
         if (isMovingDown) {
-            if (yPosition() + velocity >= gameHeight() - height()) {
+            if (yPosition() + getCurrentVelocity() >= gameHeight() - height()) {
                 return;
             }
-            moveDown(velocity);
+            moveDown(getCurrentVelocity());
         }
     }
 
     private void checkMoveRight() {
         if (isMovingRight) {
-            if (xPosition() + velocity >= gameWidth() - width()) {
+            if (xPosition() + getCurrentVelocity() >= gameWidth() - width()) {
                 return;
             }
-            moveRight(velocity);
+            moveRight(getCurrentVelocity());
             if (thrustParticlesActive) {
                 addThrustParticles(Color.DARKORANGE, -4, xPosition() - (width() / 4), yPosition() + (height() / 2) - 4);
             }
@@ -169,10 +181,10 @@ public final class Player extends Entity {
 
     private void checkMoveLeft() {
         if (isMovingLeft) {
-            if (xPosition() - velocity <= 0) {
+            if (xPosition() - getCurrentVelocity() <= 0) {
                 return;
             }
-            moveLeft(velocity);
+            moveLeft(getCurrentVelocity());
             if (!isMovingRight) { // generates to many particles otherwise
                 if (thrustParticlesActive) {
                     addThrustParticles(Color.DARKBLUE, 4, xPosition() - (width() / 4), yPosition() + (height() / 2) - 4);
@@ -190,23 +202,35 @@ public final class Player extends Entity {
     }
 
     public void onKeyInput(final KeyEvent event, final boolean isPressed) {
-        switch (event.getCode()) {
-            case W:
-                isMovingUp = isPressed;
-                break;
-            case S:
-                isMovingDown = isPressed;
-                break;
-            case A:
-                isMovingLeft = isPressed;
-                break;
-            case D:
-                isMovingRight = isPressed;
-                break;
-            case SPACE:
-                shootBullet = isPressed;
-                break;
+        if (!playerPaused) {
+            switch (event.getCode()) {
+                case W:
+                    isMovingUp = isPressed;
+                    break;
+                case S:
+                    isMovingDown = isPressed;
+                    break;
+                case A:
+                    isMovingLeft = isPressed;
+                    break;
+                case D:
+                    isMovingRight = isPressed;
+                    break;
+                case SHIFT:
+                    isFaster = isPressed;
+                    break;
+                case SPACE:
+                    shootBullet = isPressed;
+                    break;
+                case P:
+                    game.pause();
+                    game.switchGameState(new MenuState(game, game.getCurrentGameState()));
+                    playerPaused = true;
+                    break;
+            }
         }
+        else if (event.getCode()== KeyCode.ENTER)
+            playerPaused = false;
     }
 
     public void enableThrustParticles() {

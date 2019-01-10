@@ -52,13 +52,18 @@ public final class MenuState extends GameState {
             "/sounds/start.wav"
     );
 
-    private final String[] options = new String[]{
-            "New game",
-            "Highscore",
-            "Settings",
-            "Credits",
-            "Exit"
-    };
+    private String[] options;
+
+    private void initiateOptions()
+    {
+        options = new String[]{
+                "New game",
+                "Highscore",
+                "Settings",
+                "Credits",
+                "Exit"
+        };
+    }
 
     private static final int START_INDEX = 0;
     private static final int HIGHSCORE_INDEX = 1;
@@ -68,6 +73,16 @@ public final class MenuState extends GameState {
 
     public MenuState(final GameCanvas game) {
         super(game);
+        this.setLastGameState(null);
+        initiateOptions();
+    }
+    public MenuState(final GameCanvas game, GameState lastGameState)
+    {
+        super(game);
+        this.setLastGameState(lastGameState);
+        initiateOptions();
+        if (lastGameState!=null)
+            options[0] = "Resume Game";
     }
 
     @Override
@@ -105,39 +120,65 @@ public final class MenuState extends GameState {
         brush.setTextBaseline(VPos.BASELINE);
     }
 
+    private void menuMoveUP()
+    {
+        if (currentIndex <= 0)
+            currentIndex = 0;
+        else {
+            if (game().isAudioEnabled()) selectSound.play();
+            currentIndex--;
+        }
+    }
+
+    private void menuMoveDown()
+    {
+        if (currentIndex >= options.length - 1)
+            currentIndex = options.length - 1;
+        else {
+            if (game().isAudioEnabled()) selectSound.play();
+            currentIndex++;
+        }
+    }
+
     @Override
     public void onKeyInput(final KeyEvent event, final boolean isPressed) {
         if (isPressed) {
             switch (event.getCode()) {
                 case W:
-                    if (currentIndex <= 0)
-                        currentIndex = 0;
-                    else {
-                        if (game().isAudioEnabled()) selectSound.play();
-                        currentIndex--;
-                    }
+                    menuMoveUP();
+                    break;
+                case UP:
+                    menuMoveUP();
                     break;
                 case S:
-                    if (currentIndex >= options.length - 1)
-                        currentIndex = options.length - 1;
-                    else {
-                        if (game().isAudioEnabled()) selectSound.play();
-                        currentIndex++;
-                    }
+                    menuMoveDown();
+                    break;
+                case DOWN:
+                    menuMoveDown();
                     break;
                 case ENTER:
                     if (currentIndex == START_INDEX) {
-                        game().switchGameState(new Level1State(game()));
-                        if (game().isAudioEnabled()) startSound.play();
+                        if (options[0].equals("New game"))
+                        {
+                            game().switchGameState(new Level1State(game()));
+                            if (game().isAudioEnabled()) startSound.play();
+                        }
+                        else game().switchGameState(this.getLastGameState());
                     } else if (currentIndex == HIGHSCORE_INDEX) {
                         if (game().isAudioEnabled()) selectionSound.play();
-                        game().switchGameState(new HighscoreState(game()));
+                        GameState newState = new HighscoreState(game());
+                        newState.setLastGameState(this.getLastGameState());
+                        game().switchGameState(newState);
                     } else if (currentIndex == SETTINGS_INDEX) {
                         if (game().isAudioEnabled()) selectionSound.play();
-                        game().switchGameState(new SettingsState(game()));
+                        GameState newState = new SettingsState(game());
+                        newState.setLastGameState(this.getLastGameState());
+                        game().switchGameState(newState);
                     } else if (currentIndex == CREDITS_STATE) {
                         if (game().isAudioEnabled()) selectionSound.play();
-                        game().switchGameState(new CreditsState(game()));
+                        GameState newState = new CreditsState(game());
+                        newState.setLastGameState(this.getLastGameState());
+                        game().switchGameState(newState);
                     } else {
                         if (game().isAudioEnabled()) selectionSound.play();
                         Platform.exit();
@@ -145,5 +186,10 @@ public final class MenuState extends GameState {
                     break;
             }
         }
+    }
+
+    public String[] getOptions()
+    {
+        return options;
     }
 }

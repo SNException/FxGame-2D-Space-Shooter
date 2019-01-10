@@ -129,7 +129,9 @@ public final class AudioSettingsState extends GameState {
                             game().enableSound();
                         }
                     } else {
-                        game().switchGameState(new SettingsState(game()));
+                        GameState newState = new SettingsState(game());
+                        newState.setLastGameState(this.getLastGameState());
+                        game().switchGameState(newState);
                     }
                     break;
             }

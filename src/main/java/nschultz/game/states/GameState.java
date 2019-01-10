@@ -35,8 +35,21 @@ public abstract class GameState {
 
     private final GameCanvas game;
 
+    private GameState lastGameState;
+
     public GameState(final GameCanvas game) {
         this.game = game;
+        this.lastGameState = null;
+    }
+
+    public void setLastGameState(GameState newState)
+    {
+        lastGameState = newState;
+    }
+
+    public GameState getLastGameState()
+    {
+        return lastGameState;
     }
 
     public abstract void update(final long now);

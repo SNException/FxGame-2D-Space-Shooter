@@ -51,7 +51,9 @@ public class HighscoreState extends GameState {
     public void onKeyInput(final KeyEvent event, final boolean isPressed) {
         if (isPressed) {
             if (event.getCode() == KeyCode.ENTER) {
-                game().switchGameState(new MenuState(game()));
+                if (this.getLastGameState()==null)
+                    game().switchGameState(new MenuState(game()));
+                else game().switchGameState(new MenuState(game(), this.getLastGameState()));
             }
         }
     }

@@ -248,7 +248,7 @@ public final class GameCanvas extends Canvas {
         new AttemptsToEnsureGc(2).run();
     }
 
-    void pause() {
+    public void pause() {
         if (isPlayableState(currentGameState.value())) {
             if (gameLoop.isRunning()) {
                 gameLoop.stop();
@@ -296,5 +296,10 @@ public final class GameCanvas extends Canvas {
 
     public boolean isAudioEnabled() {
         return isAudioEnabled;
+    }
+
+    public GameState getCurrentGameState()
+    {
+        return currentGameState.value();
     }
 }
