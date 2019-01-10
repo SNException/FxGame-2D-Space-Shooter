@@ -14,11 +14,13 @@ Shooting enemies down, grants points which count to your high score.
  
 **W** - Move up (player and menu)
 
-**A** - Move down (player and menu)
+**S** - Move down (player and menu)
 
-**S** - Move left
+**A** - Move left
 
 **D** - Move right
+
+**Shift** + **W|A|S|D** - Move faster
 
 **P** - Pause / Resume
 
