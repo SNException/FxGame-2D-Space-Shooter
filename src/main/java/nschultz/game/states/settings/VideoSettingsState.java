@@ -161,7 +161,7 @@ public final class VideoSettingsState extends GameState {
                         }
                     } else {
                         GameState newState = new SettingsState(game());
-                        newState.setLastGameState(this.getLastGameState());
+                        newState.setLastGameState(this.lastGameState());
                         game().switchGameState(newState);
                     }
                     break;

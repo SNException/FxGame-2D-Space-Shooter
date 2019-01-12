@@ -126,16 +126,16 @@ public final class SettingsState extends GameState {
                     if (game().isAudioEnabled()) selectionSound.play();
                     if (currentIndex == VIDEO_OPTION_INDEX) {
                         GameState newState = new VideoSettingsState(game());
-                        newState.setLastGameState(this.getLastGameState());
+                        newState.setLastGameState(this.lastGameState());
                         game().switchGameState(newState);
                     } else if (currentIndex == AUDIO_OPTION_INDEX) {
                         GameState newState = new AudioSettingsState(game());
-                        newState.setLastGameState(this.getLastGameState());
+                        newState.setLastGameState(this.lastGameState());
                         game().switchGameState(newState);
                     } else {
-                        if (this.getLastGameState()==null)
+                        if (this.lastGameState()==null)
                             game().switchGameState(new MenuState(game()));
-                        else game().switchGameState(new MenuState(game(), this.getLastGameState()));
+                        else game().switchGameState(new MenuState(game(), this.lastGameState()));
                     }
                     break;
             }

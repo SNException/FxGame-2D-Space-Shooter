@@ -54,8 +54,7 @@ public final class MenuState extends GameState {
 
     private String[] options;
 
-    private void initiateOptions()
-    {
+    private void initiateOptions() {
         options = new String[]{
                 "New game",
                 "Highscore",
@@ -76,13 +75,14 @@ public final class MenuState extends GameState {
         this.setLastGameState(null);
         initiateOptions();
     }
-    public MenuState(final GameCanvas game, GameState lastGameState)
-    {
+
+    public MenuState(final GameCanvas game, GameState lastGameState) {
         super(game);
         this.setLastGameState(lastGameState);
         initiateOptions();
-        if (lastGameState!=null)
+        if (lastGameState != null) {
             options[0] = "Resume Game";
+        }
     }
 
     @Override
@@ -120,8 +120,7 @@ public final class MenuState extends GameState {
         brush.setTextBaseline(VPos.BASELINE);
     }
 
-    private void menuMoveUP()
-    {
+    private void menuMoveUP() {
         if (currentIndex <= 0)
             currentIndex = 0;
         else {
@@ -130,8 +129,7 @@ public final class MenuState extends GameState {
         }
     }
 
-    private void menuMoveDown()
-    {
+    private void menuMoveDown() {
         if (currentIndex >= options.length - 1)
             currentIndex = options.length - 1;
         else {
@@ -158,26 +156,24 @@ public final class MenuState extends GameState {
                     break;
                 case ENTER:
                     if (currentIndex == START_INDEX) {
-                        if (options[0].equals("New game"))
-                        {
+                        if (options[0].equals("New game")) {
                             game().switchGameState(new Level1State(game()));
                             if (game().isAudioEnabled()) startSound.play();
-                        }
-                        else game().switchGameState(this.getLastGameState());
+                        } else game().switchGameState(lastGameState());
                     } else if (currentIndex == HIGHSCORE_INDEX) {
                         if (game().isAudioEnabled()) selectionSound.play();
                         GameState newState = new HighscoreState(game());
-                        newState.setLastGameState(this.getLastGameState());
+                        newState.setLastGameState(lastGameState());
                         game().switchGameState(newState);
                     } else if (currentIndex == SETTINGS_INDEX) {
                         if (game().isAudioEnabled()) selectionSound.play();
                         GameState newState = new SettingsState(game());
-                        newState.setLastGameState(this.getLastGameState());
+                        newState.setLastGameState(lastGameState());
                         game().switchGameState(newState);
                     } else if (currentIndex == CREDITS_STATE) {
                         if (game().isAudioEnabled()) selectionSound.play();
                         GameState newState = new CreditsState(game());
-                        newState.setLastGameState(this.getLastGameState());
+                        newState.setLastGameState(lastGameState());
                         game().switchGameState(newState);
                     } else {
                         if (game().isAudioEnabled()) selectionSound.play();
@@ -186,10 +182,5 @@ public final class MenuState extends GameState {
                     break;
             }
         }
-    }
-
-    public String[] getOptions()
-    {
-        return options;
     }
 }

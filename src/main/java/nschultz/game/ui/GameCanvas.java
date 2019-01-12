@@ -298,7 +298,7 @@ public final class GameCanvas extends Canvas {
         return isAudioEnabled;
     }
 
-    public GameState getCurrentGameState()
+    public GameState currentGameState()
     {
         return currentGameState.value();
     }

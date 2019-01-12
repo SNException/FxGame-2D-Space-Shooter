@@ -47,7 +47,7 @@ public abstract class GameState {
         lastGameState = newState;
     }
 
-    public GameState getLastGameState()
+    public GameState lastGameState()
     {
         return lastGameState;
     }

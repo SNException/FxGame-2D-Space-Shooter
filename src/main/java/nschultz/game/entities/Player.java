@@ -59,8 +59,6 @@ public final class Player extends Entity {
     );
 
     private final GameCanvas game;
-    private final double velocity = 8;
-
     private boolean isMovingUp;
     private boolean isMovingDown;
     private boolean isMovingRight;
@@ -141,37 +139,35 @@ public final class Player extends Entity {
         }
     }
 
-    private double getCurrentVelocity()
-    {
-        if (isFaster)
-            return velocity;
-        else return velocity/2;
+    private double currentVelocity() {
+        final double velocity = 8;
+        return isFaster ? velocity : velocity / 2;
     }
 
     private void checkMoveUp() {
         if (isMovingUp) {
-            if (yPosition() - getCurrentVelocity() <= 0) {
+            if (yPosition() - currentVelocity() <= 0) {
                 return;
             }
-            moveUp(getCurrentVelocity());
+            moveUp(currentVelocity());
         }
     }
 
     private void checkMoveDown() {
         if (isMovingDown) {
-            if (yPosition() + getCurrentVelocity() >= gameHeight() - height()) {
+            if (yPosition() + currentVelocity() >= gameHeight() - height()) {
                 return;
             }
-            moveDown(getCurrentVelocity());
+            moveDown(currentVelocity());
         }
     }
 
     private void checkMoveRight() {
         if (isMovingRight) {
-            if (xPosition() + getCurrentVelocity() >= gameWidth() - width()) {
+            if (xPosition() + currentVelocity() >= gameWidth() - width()) {
                 return;
             }
-            moveRight(getCurrentVelocity());
+            moveRight(currentVelocity());
             if (thrustParticlesActive) {
                 addThrustParticles(Color.DARKORANGE, -4, xPosition() - (width() / 4), yPosition() + (height() / 2) - 4);
             }
@@ -181,10 +177,10 @@ public final class Player extends Entity {
 
     private void checkMoveLeft() {
         if (isMovingLeft) {
-            if (xPosition() - getCurrentVelocity() <= 0) {
+            if (xPosition() - currentVelocity() <= 0) {
                 return;
             }
-            moveLeft(getCurrentVelocity());
+            moveLeft(currentVelocity());
             if (!isMovingRight) { // generates to many particles otherwise
                 if (thrustParticlesActive) {
                     addThrustParticles(Color.DARKBLUE, 4, xPosition() - (width() / 4), yPosition() + (height() / 2) - 4);
@@ -223,14 +219,28 @@ public final class Player extends Entity {
                     shootBullet = isPressed;
                     break;
                 case P:
-                    game.pause();
-                    game.switchGameState(new MenuState(game, game.getCurrentGameState()));
-                    playerPaused = true;
-                    break;
+                    if (!(game.currentGameState() instanceof MenuState)) {
+                        game.pause();
+                        game.switchGameState(new MenuState(
+                                game, game.currentGameState())
+                        );
+                        playerPaused = true;
+                        releaseAllKeys();
+                        break;
+                    }
             }
-        }
-        else if (event.getCode()== KeyCode.ENTER)
+        } else if (event.getCode() == KeyCode.ENTER) {
             playerPaused = false;
+        }
+    }
+
+    private void releaseAllKeys() {
+        shootBullet = false;
+        isFaster = false;
+        isMovingRight = false;
+        isMovingLeft = false;
+        isMovingDown = false;
+        isMovingUp = false;
     }
 
     public void enableThrustParticles() {

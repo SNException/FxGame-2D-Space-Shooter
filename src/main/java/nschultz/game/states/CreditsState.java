@@ -67,9 +67,9 @@ public class CreditsState extends GameState {
     @Override
     public void update(final long now) {
         if (y == -400) {
-            if (this.getLastGameState()==null)
+            if (this.lastGameState()==null)
                 game().switchGameState(new MenuState(game()));
-            else game().switchGameState(new MenuState(game(), this.getLastGameState()));
+            else game().switchGameState(new MenuState(game(), this.lastGameState()));
         } else {
             y -= 1;
         }
