@@ -33,26 +33,24 @@ import nschultz.game.entities.enemies.SimpleEnemy;
 import nschultz.game.states.GameOverState;
 import nschultz.game.states.GameState;
 import nschultz.game.ui.GameCanvas;
-import nschultz.game.util.TimeDelayedProcedure;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public final class Level1State extends GameState {
 
     private static final int MAX_AMOUNT_OF_ENEMIES = 20;
-
     private final Random rng = new Random(100);
-    private final TimeDelayedProcedure spawnDelay = new TimeDelayedProcedure(1, TimeUnit.SECONDS);
     private int totalAmountOfEnemySpawned;
+    private int spawnDelay = 0;
 
     public Level1State(final GameCanvas game) {
         super(game);
     }
 
-    private void spawnEnemy(final long now) {
-        if (totalAmountOfEnemySpawned < MAX_AMOUNT_OF_ENEMIES) {
-            spawnDelay.runAfterDelayExact(now, () -> {
+    private void spawnEnemy() {
+        spawnDelay++;
+        if (spawnDelay >= 60) {
+            if (totalAmountOfEnemySpawned < MAX_AMOUNT_OF_ENEMIES) {
                 final int yOffset = 64;
                 game().entities().add(new SimpleEnemy(new Point2D(
                         game().resolution().getWidth(),
@@ -62,13 +60,14 @@ public final class Level1State extends GameState {
                 ), rng.nextInt(3) + 1, game()));
 
                 totalAmountOfEnemySpawned++;
-            });
+                spawnDelay = 0;
+            }
         }
     }
 
     @Override
     public void update(final long now) {
-        spawnEnemy(now);
+        spawnEnemy();
         game().entities().forEach(entity -> entity.update(now));
         game().entities().removeIf(Entity::isDead);
 
@@ -80,7 +79,6 @@ public final class Level1State extends GameState {
             game().switchGameState(new Level2State(game()));
         }
     }
-
 
     @Override
     public void render(final GraphicsContext brush, final long now) {

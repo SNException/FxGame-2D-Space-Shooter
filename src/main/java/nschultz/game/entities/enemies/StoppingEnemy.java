@@ -29,25 +29,21 @@ import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import nschultz.game.io.SpriteSheet;
 import nschultz.game.ui.GameCanvas;
 import nschultz.game.util.NumberNegation;
-import nschultz.game.io.SpriteSheet;
-import nschultz.game.util.TimeDelayedProcedure;
-
-import java.util.concurrent.TimeUnit;
 
 public final class StoppingEnemy extends Enemy {
 
     private static final Image sprite = SpriteSheet.instance().sprite(
-            2, 1, 16, 16
+            2, 2, 16, 16
     );
 
     private final double startingVelocity;
     private double velocity;
     private double delta = 0.1;
     private boolean stop;
-    private final TimeDelayedProcedure stoppingDelay =
-            new TimeDelayedProcedure(5, TimeUnit.SECONDS);
+    private int stoppingDelay;
 
     public StoppingEnemy(final Point2D position, final double velocity,
                          final GameCanvas game) {
@@ -73,7 +69,12 @@ public final class StoppingEnemy extends Enemy {
             }
             moveLeft(velocity);
         } else {
-            stoppingDelay.runAfterDelayExact(now, () -> stop = false);
+            if (stoppingDelay >= 300) {
+                stop = false;
+                stoppingDelay = 0;
+            } else {
+                stoppingDelay++;
+            }
         }
     }
 

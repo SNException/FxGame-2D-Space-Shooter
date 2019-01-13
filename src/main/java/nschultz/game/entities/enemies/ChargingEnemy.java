@@ -33,13 +33,11 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+import nschultz.game.io.SpriteSheet;
 import nschultz.game.ui.GameCanvas;
 import nschultz.game.util.IsWhitePixelColor;
-import nschultz.game.io.SpriteSheet;
-import nschultz.game.util.TimeDelayedProcedure;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public final class ChargingEnemy extends Enemy {
 
@@ -53,9 +51,7 @@ public final class ChargingEnemy extends Enemy {
     private boolean steppedOut = false;
     private boolean chargeCooldown = false;
     private final double movingAmountBeforeCharging;
-    private final TimeDelayedProcedure chargeCooldownDelay =
-            new TimeDelayedProcedure(3, TimeUnit.SECONDS);
-
+    private int chargeDelay;
     private final WritableImage image;
     private final PixelWriter writer;
     private final PixelReader reader;
@@ -88,7 +84,8 @@ public final class ChargingEnemy extends Enemy {
         }
 
         if (steppedOut) {
-            chargeCooldownDelay.runAfterDelayExact(now, () -> chargeCooldown = true);
+            chargeDelay++;
+            if (chargeDelay >= 180) chargeCooldown = true;
             if (chargeCooldown) {
                 moveLeft(chargingVelocity);
             } else {

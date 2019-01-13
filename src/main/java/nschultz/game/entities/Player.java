@@ -37,12 +37,11 @@ import nschultz.game.io.SpriteSheet;
 import nschultz.game.states.MenuState;
 import nschultz.game.ui.AlphaParticle;
 import nschultz.game.ui.GameCanvas;
-import nschultz.game.util.TimeDelayedProcedure;
+import nschultz.game.util.SaveIncrement;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public final class Player extends Entity {
 
@@ -67,12 +66,8 @@ public final class Player extends Entity {
     private boolean playerPaused;
     private boolean shootBullet;
 
-    private final TimeDelayedProcedure bulletDelay = new TimeDelayedProcedure(
-            200, TimeUnit.MILLISECONDS
-    );
-    private final TimeDelayedProcedure imageDelay = new TimeDelayedProcedure(
-            800, TimeUnit.MILLISECONDS
-    );
+    private int bulletDelay;
+    private int imageDelay;
 
     private final Image[] image = new Image[2];
     private final List<AlphaParticle> thrustParticles = new ArrayList<>();
@@ -94,29 +89,38 @@ public final class Player extends Entity {
         checkMoveDown();
         checkMoveRight();
         checkMoveLeft();
-        checkShootBullet(now);
+        checkShootBullet();
         thrustParticles.forEach(AlphaParticle::update);
         thrustParticles.removeIf(AlphaParticle::isDead);
-        imageDelay.runAfterDelay(now, () -> {
+        animatePlayerImage();
+    }
+
+    private void animatePlayerImage() {
+        if (imageDelay >= 200) {
             if (imageIndex == 0) {
                 imageIndex = 1;
             } else {
                 imageIndex = 0;
             }
-        });
-
+            imageDelay = 0;
+        }
+        imageDelay++;
     }
 
-    private void checkShootBullet(final long now) {
-        if (shootBullet) {
-            bulletDelay.runAfterDelay(now, () -> {
+    private void checkShootBullet() {
+        bulletDelay = new SaveIncrement(bulletDelay).value();
+        if (bulletDelay >= 20) {
+            if (shootBullet) {
                 game.spawn(new Bullet(
                         new Point2D(
                                 xPosition() + (width() / 2),
                                 yPosition() + (height() / 2)), game)
                 );
-                if (game.isAudioEnabled()) shootingSound.play();
-            });
+                if (game.isAudioEnabled()) {
+                    shootingSound.play();
+                }
+                bulletDelay = 0;
+            }
         }
     }
 

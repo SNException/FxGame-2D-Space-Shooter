@@ -35,6 +35,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import nschultz.game.io.SoundFile;
 import nschultz.game.states.levels.Level1State;
+import nschultz.game.states.levels.Level8State;
 import nschultz.game.states.settings.SettingsState;
 import nschultz.game.ui.GameCanvas;
 

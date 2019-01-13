@@ -34,28 +34,24 @@ import nschultz.game.entities.enemies.StoppingEnemy;
 import nschultz.game.states.GameOverState;
 import nschultz.game.states.GameState;
 import nschultz.game.ui.GameCanvas;
-import nschultz.game.util.TimeDelayedProcedure;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public final class Level12State extends GameState {
 
     private static final int MAX_AMOUNT_OF_ENEMIES = 60;
-
     private final Random rng = new Random(1200);
-    private final TimeDelayedProcedure spawnDelay = new TimeDelayedProcedure(
-            1, TimeUnit.SECONDS
-    );
     private int totalAmountOfEnemySpawned;
+    private int spawnDelay;
 
     Level12State(final GameCanvas game) {
         super(game);
     }
 
-    private void spawnEnemy(final long now) {
-        if (totalAmountOfEnemySpawned < MAX_AMOUNT_OF_ENEMIES) {
-            spawnDelay.runAfterDelayExact(now, () -> {
+    private void spawnEnemy() {
+        spawnDelay++;
+        if (spawnDelay >= 60) {
+            if (totalAmountOfEnemySpawned < MAX_AMOUNT_OF_ENEMIES) {
                 final int yOffset = 64;
 
                 game().entities().add(new StoppingEnemy(new Point2D(
@@ -75,13 +71,14 @@ public final class Level12State extends GameState {
                 ), game()));
 
                 totalAmountOfEnemySpawned++;
-            });
+                spawnDelay = 0;
+            }
         }
     }
 
     @Override
     public void update(final long now) {
-        spawnEnemy(now);
+        spawnEnemy();
         game().entities().forEach(entity -> entity.update(now));
         game().entities().removeIf(Entity::isDead);
 

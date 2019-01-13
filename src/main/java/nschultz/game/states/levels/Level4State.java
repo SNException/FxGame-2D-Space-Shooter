@@ -28,31 +28,29 @@ package nschultz.game.states.levels;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import nschultz.game.states.GameOverState;
-import nschultz.game.states.GameState;
-import nschultz.game.util.TimeDelayedProcedure;
-import nschultz.game.ui.GameCanvas;
 import nschultz.game.entities.Entity;
 import nschultz.game.entities.enemies.SimpleEnemy;
+import nschultz.game.states.GameOverState;
+import nschultz.game.states.GameState;
+import nschultz.game.ui.GameCanvas;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public final class Level4State extends GameState {
 
     private static final int MAX_AMOUNT_OF_ENEMIES = 100;
-
     private final Random rng = new Random(400);
-    private final TimeDelayedProcedure spawnDelay = new TimeDelayedProcedure(500, TimeUnit.MILLISECONDS);
     private int totalAmountOfEnemySpawned;
+    private int spawnDelay;
 
     Level4State(final GameCanvas game) {
         super(game);
     }
 
-    private void spawnEnemy(final long now) {
-        if (totalAmountOfEnemySpawned < MAX_AMOUNT_OF_ENEMIES) {
-            spawnDelay.runAfterDelayExact(now, () -> {
+    private void spawnEnemy() {
+        spawnDelay++;
+        if (spawnDelay >= 30) {
+            if (totalAmountOfEnemySpawned < MAX_AMOUNT_OF_ENEMIES) {
                 final int yOffset = 64;
                 game().entities().add(new SimpleEnemy(new Point2D(
                         game().resolution().getWidth(),
@@ -62,13 +60,14 @@ public final class Level4State extends GameState {
                 ), rng.nextInt(16) + 2, game()));
 
                 totalAmountOfEnemySpawned++;
-            });
+                spawnDelay = 0;
+            }
         }
     }
 
     @Override
     public void update(final long now) {
-        spawnEnemy(now);
+        spawnEnemy();
         game().entities().forEach(entity -> entity.update(now));
         game().entities().removeIf(Entity::isDead);
 

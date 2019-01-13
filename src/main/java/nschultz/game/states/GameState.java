@@ -34,22 +34,10 @@ import nschultz.game.util.IsLevelCompleted;
 public abstract class GameState {
 
     private final GameCanvas game;
-
     private GameState lastGameState;
 
     public GameState(final GameCanvas game) {
         this.game = game;
-        this.lastGameState = null;
-    }
-
-    public void setLastGameState(GameState newState)
-    {
-        lastGameState = newState;
-    }
-
-    public GameState lastGameState()
-    {
-        return lastGameState;
     }
 
     public abstract void update(final long now);
@@ -71,6 +59,13 @@ public abstract class GameState {
         return game;
     }
 
+    public void setLastGameState(GameState newState) {
+        lastGameState = newState;
+    }
+
+    protected final GameState lastGameState() {
+        return lastGameState;
+    }
 
     public final boolean hasPlayerDied() {
         return new HasPlayerDied(game().entities()).value();

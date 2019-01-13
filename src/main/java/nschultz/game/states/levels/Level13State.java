@@ -34,35 +34,27 @@ import nschultz.game.entities.enemies.SimpleEnemy;
 import nschultz.game.states.GameOverState;
 import nschultz.game.states.GameState;
 import nschultz.game.ui.GameCanvas;
-import nschultz.game.util.TimeDelayedProcedure;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public final class Level13State extends GameState {
 
     private static final int MAX_AMOUNT_OF_ENEMIES = 1000;
-
     private final Random rng = new Random(1300);
-    private final TimeDelayedProcedure spawnDelaySimpleEnemies =
-            new TimeDelayedProcedure(
-                    150, TimeUnit.MILLISECONDS
-            );
-    private final TimeDelayedProcedure spawnDelayJumpingEnemies =
-            new TimeDelayedProcedure(
-                    100, TimeUnit.MILLISECONDS
-            );
-
     private int totalAmountOfEnemySpawned;
+    private int spawnDelaySimpleEnemies;
+    private int spawnDelayJumpingEnemies;
 
     Level13State(final GameCanvas game) {
         super(game);
     }
 
-    private void spawnEnemy(final long now) {
-        if (totalAmountOfEnemySpawned < MAX_AMOUNT_OF_ENEMIES) {
+    private void spawnEnemy() {
+        spawnDelaySimpleEnemies++;
+        spawnDelayJumpingEnemies++;
+        if (spawnDelaySimpleEnemies >= 8) {
             final int yOffset = 64;
-            spawnDelaySimpleEnemies.runAfterDelayExact(now, () -> {
+            if (totalAmountOfEnemySpawned < MAX_AMOUNT_OF_ENEMIES) {
                 game().entities().add(new SimpleEnemy(new Point2D(
                         game().resolution().getWidth(), 32
                 ), 8, game()));
@@ -72,8 +64,9 @@ public final class Level13State extends GameState {
                         game().resolution().getWidth(), 720
                 ), 8, game()));
                 totalAmountOfEnemySpawned++;
-            });
-            spawnDelayJumpingEnemies.runAfterDelay(now, () -> {
+                spawnDelaySimpleEnemies = 0;
+            }
+            if (spawnDelayJumpingEnemies >= 16) {
                 game().entities().add(new JumpingEnemy(new Point2D(
                         game().resolution().getWidth(),
                         rng.nextInt(
@@ -81,13 +74,14 @@ public final class Level13State extends GameState {
                         )
                 ), game()));
                 totalAmountOfEnemySpawned++;
-            });
+                spawnDelayJumpingEnemies = 0;
+            }
         }
     }
 
     @Override
     public void update(final long now) {
-        spawnEnemy(now);
+        spawnEnemy();
         game().entities().forEach(entity -> entity.update(now));
         game().entities().removeIf(Entity::isDead);
 
