@@ -28,7 +28,6 @@ package nschultz.game.ui;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import nschultz.game.io.SpriteSheet;
@@ -70,6 +69,6 @@ public final class GameWindow {
         primaryStage.show();
 
         new Scaling(scene).apply();
-        canvas.startPulseSystem();
+        canvas.startGameLoop();
     }
 }

@@ -109,7 +109,7 @@ public final class GameCanvas extends Canvas {
                 !(state instanceof HighscoreState);
     }
 
-    void startPulseSystem() {
+    void startGameLoop() {
         if (gameLoop.isRunning())
             return;
 
