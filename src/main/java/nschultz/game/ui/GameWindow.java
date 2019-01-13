@@ -29,6 +29,7 @@ import javafx.geometry.Dimension2D;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import nschultz.game.io.SpriteSheet;
 
@@ -49,7 +50,7 @@ public final class GameWindow {
             return;
 
         final GameCanvas canvas = new GameCanvas(resolution);
-        final Scene scene = new Scene(new BorderPane(canvas));
+        final Scene scene = new Scene(new StackPane(canvas));
         canvas.widthProperty().bind(scene.widthProperty());
         canvas.heightProperty().bind(scene.heightProperty());
 
