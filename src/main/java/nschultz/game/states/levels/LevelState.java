@@ -23,45 +23,24 @@
  * THE SOFTWARE.
  *
  */
-package nschultz.game.states;
+package nschultz.game.states.levels;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyEvent;
+import nschultz.game.states.GameState;
 import nschultz.game.ui.GameCanvas;
+import nschultz.game.util.HasPlayerDied;
+import nschultz.game.util.IsLevelCompleted;
 
-public abstract class GameState {
+public abstract class LevelState extends GameState {
 
-    private final GameCanvas game;
-    private GameState lastGameState;
-
-    public GameState(final GameCanvas game) {
-        this.game = game;
+    public LevelState(final GameCanvas game) {
+        super(game);
     }
 
-    public abstract void update(final long now);
-
-    public abstract void render(final GraphicsContext brush, final long now);
-
-    /**
-     * Override when needed.
-     * We do not use game loop for that; reason:
-     * KeyEvents can be event driven for better performance.
-     *
-     * @param event     the event
-     * @param isPressed whether the key is pressed or not
-     */
-    public void onKeyInput(final KeyEvent event, final boolean isPressed) {
+    public final boolean hasPlayerDied() {
+        return new HasPlayerDied(game().entities()).value();
     }
 
-    public final GameCanvas game() {
-        return game;
-    }
-
-    public void setLastGameState(final GameState newState) {
-        lastGameState = newState;
-    }
-
-    protected final GameState lastGameState() {
-        return lastGameState;
+    public final boolean isLevelCompleted() {
+        return new IsLevelCompleted(game().entities()).value();
     }
 }

@@ -32,12 +32,11 @@ import nschultz.game.entities.Entity;
 import nschultz.game.entities.enemies.ChargingEnemy;
 import nschultz.game.entities.enemies.StoppingEnemy;
 import nschultz.game.states.GameOverState;
-import nschultz.game.states.GameState;
 import nschultz.game.ui.GameCanvas;
 
 import java.util.Random;
 
-public final class Level12State extends GameState {
+public final class Level12State extends LevelState {
 
     private static final int MAX_AMOUNT_OF_ENEMIES = 60;
     private final Random rng = new Random(1200);

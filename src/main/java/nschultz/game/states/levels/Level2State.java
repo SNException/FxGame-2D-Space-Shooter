@@ -31,12 +31,11 @@ import javafx.scene.paint.Color;
 import nschultz.game.entities.Entity;
 import nschultz.game.entities.enemies.SimpleEnemy;
 import nschultz.game.states.GameOverState;
-import nschultz.game.states.GameState;
 import nschultz.game.ui.GameCanvas;
 
 import java.util.Random;
 
-public final class Level2State extends GameState {
+public final class Level2State extends LevelState {
 
     private static final int MAX_AMOUNT_OF_ENEMIES = 50;
     private final Random rng = new Random(200);
