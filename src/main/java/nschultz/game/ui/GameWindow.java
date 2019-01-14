@@ -56,7 +56,7 @@ public final class GameWindow {
         primaryStage.getIcons().add(
                 SpriteSheet.instance().sprite(1, 1, 16, 16)
         );
-        primaryStage.setTitle("FxSpace shooter v0.1.0 ALPHA");
+        primaryStage.setTitle("FxSpace shooter v0.2.0 ALPHA");
         primaryStage.setScene(scene);
         primaryStage.setFullScreenExitHint("");
         primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
