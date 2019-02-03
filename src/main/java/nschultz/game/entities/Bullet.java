@@ -39,7 +39,9 @@ import java.util.Random;
 
 public final class Bullet extends Entity {
 
-    private static final SoundFile crashSound = new SoundFile("/crash.wav");
+    private static final SoundFile crashSound = new SoundFile(
+            "/sounds/crash.wav"
+    );
 
     private final GameCanvas game;
 

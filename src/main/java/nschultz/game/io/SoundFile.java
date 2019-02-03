@@ -41,7 +41,9 @@ public final class SoundFile {
 
     public SoundFile(final String resource) {
         try {
-            buf = new BufferedInputStream(getClass().getResourceAsStream(resource)).readAllBytes();
+            buf = new BufferedInputStream(
+                    getClass().getResourceAsStream(resource)
+            ).readAllBytes();
         } catch (final IOException ex) {
             new ErrorLog(ex.toString()).log();
         }
