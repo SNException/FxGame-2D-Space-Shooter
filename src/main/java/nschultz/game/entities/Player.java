@@ -36,7 +36,7 @@ import nschultz.game.io.SoundFile;
 import nschultz.game.io.SpriteSheet;
 import nschultz.game.states.MenuState;
 import nschultz.game.ui.AlphaParticle;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 import nschultz.game.util.SaveIncrement;
 
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public final class Player extends Entity {
             3, 1, 64, 32
     );
 
-    private final GameCanvas game;
+    private final GameView game;
     private boolean isMovingUp;
     private boolean isMovingDown;
     private boolean isMovingRight;
@@ -75,7 +75,7 @@ public final class Player extends Entity {
     private static boolean thrustParticlesActive = false;
     private int imageIndex;
 
-    public Player(final Point2D position, final GameCanvas game) {
+    public Player(final Point2D position, final GameView game) {
         super(position, new Dimension2D(64, 32), game);
         this.game = game;
         image[0] = sprite1;

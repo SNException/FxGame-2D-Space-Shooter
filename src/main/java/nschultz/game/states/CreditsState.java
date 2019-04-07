@@ -30,7 +30,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 
 public class CreditsState extends GameState {
 
@@ -60,7 +60,7 @@ public class CreditsState extends GameState {
 
     private double y = game().resolution().getHeight() + 400;
 
-    CreditsState(final GameCanvas game) {
+    CreditsState(final GameView game) {
         super(game);
     }
 

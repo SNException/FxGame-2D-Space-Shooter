@@ -33,7 +33,7 @@ import javafx.scene.paint.Color;
 import nschultz.game.entities.enemies.Enemy;
 import nschultz.game.io.SoundFile;
 import nschultz.game.ui.AlphaParticle;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 
 import java.util.Random;
 
@@ -43,9 +43,9 @@ public final class Bullet extends Entity {
             "/sounds/crash.wav"
     );
 
-    private final GameCanvas game;
+    private final GameView game;
 
-    Bullet(final Point2D position, final GameCanvas game) {
+    Bullet(final Point2D position, final GameView game) {
         super(position, new Dimension2D(8, 4), game);
         this.game = game;
     }

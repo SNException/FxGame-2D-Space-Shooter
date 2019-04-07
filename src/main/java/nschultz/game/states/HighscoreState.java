@@ -33,7 +33,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 import nschultz.game.util.Highscore;
 import nschultz.game.util.NumberNegation;
 
@@ -43,7 +43,7 @@ public class HighscoreState extends GameState {
     private double delta = 0.008;
     private double alpha = 1.0;
 
-    HighscoreState(final GameCanvas game) {
+    HighscoreState(final GameView game) {
         super(game);
     }
 

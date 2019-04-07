@@ -29,7 +29,7 @@ import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 import nschultz.game.util.NumberNegation;
 import nschultz.game.io.SpriteSheet;
 
@@ -44,7 +44,7 @@ public final class GrowingEnemy extends Enemy {
     private double hDelta = 0.25;
 
     public GrowingEnemy(final Point2D position, final double velocity,
-                        final GameCanvas game) {
+                        final GameView game) {
 
         super(position, new Dimension2D(8, 8), game);
         this.velocity = velocity;

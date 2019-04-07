@@ -31,13 +31,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 import nschultz.game.util.Highscore;
 import nschultz.game.util.IsNewHighscore;
 
 public final class VictoryState extends GameState {
 
-    public VictoryState(final GameCanvas game) {
+    public VictoryState(final GameView game) {
         super(game);
         if(new IsNewHighscore(game).value()){
             new Highscore().save(game.score());

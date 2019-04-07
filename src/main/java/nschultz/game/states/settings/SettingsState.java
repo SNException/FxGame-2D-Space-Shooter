@@ -35,7 +35,7 @@ import javafx.scene.text.TextAlignment;
 import nschultz.game.io.SoundFile;
 import nschultz.game.states.GameState;
 import nschultz.game.states.MenuState;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 
 public final class SettingsState extends GameState {
 
@@ -58,7 +58,7 @@ public final class SettingsState extends GameState {
 
     private int currentIndex = 0;
 
-    public SettingsState(final GameCanvas game) {
+    public SettingsState(final GameView game) {
         super(game);
     }
 

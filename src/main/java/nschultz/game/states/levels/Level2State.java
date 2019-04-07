@@ -31,7 +31,7 @@ import javafx.scene.paint.Color;
 import nschultz.game.entities.Entity;
 import nschultz.game.entities.enemies.SimpleEnemy;
 import nschultz.game.states.GameOverState;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 
 import java.util.Random;
 
@@ -42,7 +42,7 @@ public final class Level2State extends LevelState {
     private int totalAmountOfEnemySpawned;
     private int spawnDelay;
 
-    Level2State(final GameCanvas game) {
+    Level2State(final GameView game) {
         super(game);
     }
 

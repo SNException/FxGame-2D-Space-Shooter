@@ -27,14 +27,14 @@ package nschultz.game.states;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 
 public abstract class GameState {
 
-    private final GameCanvas game;
+    private final GameView game;
     private GameState lastGameState;
 
-    public GameState(final GameCanvas game) {
+    public GameState(final GameView game) {
         this.game = game;
     }
 
@@ -53,7 +53,7 @@ public abstract class GameState {
     public void onKeyInput(final KeyEvent event, final boolean isPressed) {
     }
 
-    public final GameCanvas game() {
+    public final GameView game() {
         return game;
     }
 

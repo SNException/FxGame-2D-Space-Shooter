@@ -34,7 +34,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import nschultz.game.io.SoundFile;
 import nschultz.game.states.GameState;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 
 public final class AudioSettingsState extends GameState {
 
@@ -54,7 +54,7 @@ public final class AudioSettingsState extends GameState {
     private static final int TOGGLE_INDEX = 0;
     private int currentIndex;
 
-    AudioSettingsState(final GameCanvas game) {
+    AudioSettingsState(final GameView game) {
         super(game);
     }
 

@@ -30,7 +30,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import nschultz.game.io.SpriteSheet;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 import nschultz.game.util.NumberNegation;
 
 public final class StoppingEnemy extends Enemy {
@@ -46,7 +46,7 @@ public final class StoppingEnemy extends Enemy {
     private int stoppingDelay;
 
     public StoppingEnemy(final Point2D position, final double velocity,
-                         final GameCanvas game) {
+                         final GameView game) {
 
         super(position, new Dimension2D(16, 16), game);
         this.velocity = velocity;

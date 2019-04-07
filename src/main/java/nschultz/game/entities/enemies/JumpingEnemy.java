@@ -29,7 +29,7 @@ import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 import nschultz.game.io.SpriteSheet;
 
 public final class JumpingEnemy extends Enemy {
@@ -40,7 +40,7 @@ public final class JumpingEnemy extends Enemy {
 
     private double angle = 0;
 
-    public JumpingEnemy(final Point2D position, final GameCanvas game) {
+    public JumpingEnemy(final Point2D position, final GameView game) {
         super(position, new Dimension2D(8, 8), game);
     }
 

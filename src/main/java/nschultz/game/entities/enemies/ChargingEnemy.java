@@ -34,7 +34,7 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import nschultz.game.io.SpriteSheet;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 import nschultz.game.util.IsWhitePixelColor;
 
 import java.util.Random;
@@ -56,7 +56,7 @@ public final class ChargingEnemy extends Enemy {
     private final PixelWriter writer;
     private final PixelReader reader;
 
-    public ChargingEnemy(final Point2D position, final GameCanvas game) {
+    public ChargingEnemy(final Point2D position, final GameView game) {
         super(position, new Dimension2D(32, 32), game);
 
         final Random rng = new Random();

@@ -26,13 +26,13 @@
 package nschultz.game.states.levels;
 
 import nschultz.game.states.GameState;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 import nschultz.game.util.HasPlayerDied;
 import nschultz.game.util.IsLevelCompleted;
 
 public abstract class LevelState extends GameState {
 
-    public LevelState(final GameCanvas game) {
+    public LevelState(final GameView game) {
         super(game);
     }
 

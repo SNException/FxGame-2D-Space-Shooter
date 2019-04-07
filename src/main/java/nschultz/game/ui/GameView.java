@@ -34,6 +34,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import nschultz.game.core.Game;
 import nschultz.game.core.GameLoop;
 import nschultz.game.entities.Entity;
 import nschultz.game.entities.Player;
@@ -49,7 +50,7 @@ import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
-public final class GameCanvas {
+public final class GameView implements Game {
 
     private final GameLoop gameLoop = new GameLoop(this);
     private GraphicsContext brush;
@@ -80,7 +81,7 @@ public final class GameCanvas {
 
     private final Result<Canvas> view;
 
-    GameCanvas(final Dimension2D resolution) {
+    GameView(final Dimension2D resolution) {
         this.resolution = resolution;
 
         view = new Cache<>(() -> {
@@ -102,22 +103,12 @@ public final class GameCanvas {
         });
     }
 
+    @Override
     public Canvas view() {
         return view.value();
     }
 
-    void startGameLoop() {
-        if (gameLoop.isRunning())
-            return;
-
-        startingWidth = view().getWidth();
-        startingHeight = view().getHeight();
-        player = new Player(new Point2D(startingWidth / 2, (startingHeight / 2) + 64), this);
-        entities.add(player);
-        new AttemptsToEnsureGc(2).run();
-        gameLoop.start();
-    }
-
+    @Override
     public void update(final long now) {
         currentGameState.update(now);
         if (particlesActive) {
@@ -133,6 +124,7 @@ public final class GameCanvas {
         explosionParticles.removeIf(AlphaParticle::isDead);
     }
 
+    @Override
     public void render(final long now) {
         currentGameState.render(brush, now);
         stars.forEach(particle -> particle.render(brush));
@@ -143,6 +135,18 @@ public final class GameCanvas {
         }
         renderFPSCounter();
         renderLevelChange();
+    }
+
+    void startGameLoop() {
+        if (gameLoop.isRunning())
+            return;
+
+        startingWidth = view().getWidth();
+        startingHeight = view().getHeight();
+        player = new Player(new Point2D(startingWidth / 2, (startingHeight / 2) + 64), this);
+        entities.add(player);
+        new AttemptsToEnsureGc(2).run();
+        gameLoop.start();
     }
 
     private void renderLevelChange() {

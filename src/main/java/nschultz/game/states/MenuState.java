@@ -36,7 +36,7 @@ import javafx.scene.text.TextAlignment;
 import nschultz.game.io.SoundFile;
 import nschultz.game.states.levels.Level1State;
 import nschultz.game.states.settings.SettingsState;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 
 public final class MenuState extends GameState {
 
@@ -70,13 +70,13 @@ public final class MenuState extends GameState {
     private static final int CREDITS_STATE = 3;
     private int currentIndex = 0;
 
-    public MenuState(final GameCanvas game) {
+    public MenuState(final GameView game) {
         super(game);
         setLastGameState(null);
         initiateOptions();
     }
 
-    public MenuState(final GameCanvas game, final GameState lastGameState) {
+    public MenuState(final GameView game, final GameState lastGameState) {
         super(game);
         this.setLastGameState(lastGameState);
         initiateOptions();

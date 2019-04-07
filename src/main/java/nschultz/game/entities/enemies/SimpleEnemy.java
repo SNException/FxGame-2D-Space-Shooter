@@ -30,7 +30,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import nschultz.game.io.SpriteSheet;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 import nschultz.game.util.TimeDelayedProcedure;
 
 import java.util.concurrent.TimeUnit;
@@ -53,7 +53,7 @@ public final class SimpleEnemy extends Enemy {
     private final double velocity;
 
     public SimpleEnemy(final Point2D position, final double velocity,
-                       final GameCanvas game) {
+                       final GameView game) {
         super(position, new Dimension2D(16, 16), game);
         this.velocity = velocity;
     }

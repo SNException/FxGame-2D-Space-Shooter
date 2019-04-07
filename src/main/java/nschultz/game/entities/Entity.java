@@ -29,7 +29,7 @@ import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 
 public abstract class Entity {
 
@@ -40,7 +40,7 @@ public abstract class Entity {
     private boolean isAlive = true;
 
     public Entity(final Point2D position, final Dimension2D size,
-                  final GameCanvas game) {
+                  final GameView game) {
 
         hitBox = new Rectangle(
                 position.getX(), position.getY(),

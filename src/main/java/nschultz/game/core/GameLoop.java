@@ -26,7 +26,6 @@
 package nschultz.game.core;
 
 import javafx.animation.AnimationTimer;
-import nschultz.game.ui.GameCanvas;
 import nschultz.game.util.TimeDelayedProcedure;
 
 import java.util.concurrent.TimeUnit;
@@ -36,19 +35,18 @@ public final class GameLoop extends AnimationTimer {
     private final TimeDelayedProcedure delay = new TimeDelayedProcedure(
             1, TimeUnit.SECONDS
     );
-    private final GameCanvas game;
+    private final Game game;
     private int fps;
     private int frames;
     private boolean isRunning;
 
-    public GameLoop(final GameCanvas game) {
+    public GameLoop(final Game game) {
         this.game = game;
     }
 
     @Override
     public void handle(final long now) {
         delay.runAfterDelayExact(now, () -> {
-            System.out.println("Entities: " + game.entities().size());
             fps = frames;
             frames = 0;
         });

@@ -48,7 +48,7 @@ public final class GameWindow {
         if (primaryStage.isShowing())
             return;
 
-        final GameCanvas game = new GameCanvas(resolution);
+        final GameView game = new GameView(resolution);
         final Scene scene = new Scene(new StackPane(game.view()));
         game.view().widthProperty().bind(scene.widthProperty());
         game.view().heightProperty().bind(scene.heightProperty());

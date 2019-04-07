@@ -32,7 +32,7 @@ import nschultz.game.entities.Entity;
 import nschultz.game.entities.enemies.JumpingEnemy;
 import nschultz.game.entities.enemies.SimpleEnemy;
 import nschultz.game.states.GameOverState;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 
 import java.util.Random;
 
@@ -44,7 +44,7 @@ public final class Level13State extends LevelState {
     private int spawnDelaySimpleEnemies;
     private int spawnDelayJumpingEnemies;
 
-    Level13State(final GameCanvas game) {
+    Level13State(final GameView game) {
         super(game);
     }
 

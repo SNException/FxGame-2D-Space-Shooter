@@ -37,7 +37,7 @@ import javafx.stage.Stage;
 import nschultz.game.entities.Player;
 import nschultz.game.io.SoundFile;
 import nschultz.game.states.GameState;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 import nschultz.game.ui.LightFromEast;
 
 public final class VideoSettingsState extends GameState {
@@ -60,7 +60,7 @@ public final class VideoSettingsState extends GameState {
     private int currentIndex = 0;
     private final Stage gameWindow = (Stage) game().view().getScene().getWindow();
 
-    VideoSettingsState(final GameCanvas game) {
+    VideoSettingsState(final GameView game) {
         super(game);
 
         options[0] = gameWindow.isFullScreen() ? "Windowed" : "Fullscreen";

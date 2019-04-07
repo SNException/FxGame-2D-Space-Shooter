@@ -25,15 +25,15 @@
  */
 package nschultz.game.util;
 
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 
 import java.util.Objects;
 
 public final class IsNewHighscore implements Result<Boolean> {
 
-    private final GameCanvas game;
+    private final GameView game;
 
-    public IsNewHighscore(final GameCanvas game) {
+    public IsNewHighscore(final GameView game) {
         this.game = Objects.requireNonNull(game);
     }
 

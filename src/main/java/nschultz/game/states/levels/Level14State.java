@@ -32,7 +32,7 @@ import nschultz.game.entities.Entity;
 import nschultz.game.entities.enemies.HomingEnemy;
 import nschultz.game.states.GameOverState;
 import nschultz.game.states.VictoryState;
-import nschultz.game.ui.GameCanvas;
+import nschultz.game.ui.GameView;
 
 import java.util.Random;
 
@@ -43,7 +43,7 @@ public final class Level14State extends LevelState {
     private int totalAmountOfEnemySpawned;
     private int spawnDelay;
 
-    Level14State(final GameCanvas game) {
+    Level14State(final GameView game) {
         super(game);
     }
 
