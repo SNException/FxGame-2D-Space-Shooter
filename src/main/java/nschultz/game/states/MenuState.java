@@ -35,7 +35,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import nschultz.game.io.SoundFile;
 import nschultz.game.states.levels.Level1State;
-import nschultz.game.states.levels.Level8State;
 import nschultz.game.states.settings.SettingsState;
 import nschultz.game.ui.GameCanvas;
 
@@ -73,11 +72,11 @@ public final class MenuState extends GameState {
 
     public MenuState(final GameCanvas game) {
         super(game);
-        this.setLastGameState(null);
+        setLastGameState(null);
         initiateOptions();
     }
 
-    public MenuState(final GameCanvas game, GameState lastGameState) {
+    public MenuState(final GameCanvas game, final GameState lastGameState) {
         super(game);
         this.setLastGameState(lastGameState);
         initiateOptions();

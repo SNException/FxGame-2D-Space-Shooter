@@ -37,11 +37,11 @@ import javafx.scene.text.TextAlignment;
 import nschultz.game.core.GameLoop;
 import nschultz.game.entities.Entity;
 import nschultz.game.entities.Player;
-import nschultz.game.states.*;
-import nschultz.game.states.settings.AudioSettingsState;
-import nschultz.game.states.settings.SettingsState;
-import nschultz.game.states.settings.VideoSettingsState;
+import nschultz.game.states.CurrentGameState;
+import nschultz.game.states.GameState;
+import nschultz.game.states.MenuState;
 import nschultz.game.util.AttemptsToEnsureGc;
+import nschultz.game.util.IsPlayableState;
 import nschultz.game.util.NumberNegation;
 import nschultz.game.util.TimeDelayedProcedure;
 
@@ -98,17 +98,6 @@ public final class GameCanvas extends Canvas {
         });
     }
 
-    private boolean isPlayableState(final GameState state) {
-        return !(state instanceof MenuState) &&
-                !(state instanceof VictoryState) &&
-                !(state instanceof GameOverState) &&
-                !(state instanceof SettingsState) &&
-                !(state instanceof AudioSettingsState) &&
-                !(state instanceof VideoSettingsState) &&
-                !(state instanceof CreditsState) &&
-                !(state instanceof HighscoreState);
-    }
-
     void startGameLoop() {
         if (gameLoop.isRunning())
             return;
@@ -140,7 +129,7 @@ public final class GameCanvas extends Canvas {
         currentGameState.render(brush, now);
         stars.forEach(particle -> particle.render(brush));
         explosionParticles.forEach(particle -> particle.render(brush));
-        if (isPlayableState(currentGameState.value())) {
+        if (new IsPlayableState(currentGameState.value()).value()) {
             renderCurrentLevel();
             renderScore();
         }
@@ -224,7 +213,7 @@ public final class GameCanvas extends Canvas {
     public void switchGameState(final GameState newState) {
         shouldRenderLevelChange = false;
         currentGameState = currentGameState.switchTo(newState);
-        if (isPlayableState(newState)) {
+        if (new IsPlayableState(newState).value()) {
             shouldRenderLevelChange = true;
         }
     }
@@ -249,7 +238,7 @@ public final class GameCanvas extends Canvas {
     }
 
     public void pause() {
-        if (isPlayableState(currentGameState.value())) {
+        if (new IsPlayableState(currentGameState.value()).value()) {
             if (gameLoop.isRunning()) {
                 gameLoop.stop();
             } else {
@@ -298,8 +287,7 @@ public final class GameCanvas extends Canvas {
         return isAudioEnabled;
     }
 
-    public GameState currentGameState()
-    {
+    public GameState currentGameState() {
         return currentGameState.value();
     }
 }

@@ -41,12 +41,16 @@ public final class AttemptsToEnsureGc {
         var obj = new Object();
         final var ref = new WeakReference<>(obj);
         do {
-            if (tries >= max) {
-                break;
-            }
+            if (tries > max) break;
             obj = null;
-            System.gc();
+            tryToFreeMemory();
             tries++;
         } while (ref.get() != null);
+    }
+
+    private void tryToFreeMemory() {
+        System.gc();
+        System.gc();
+        System.runFinalization();
     }
 }
