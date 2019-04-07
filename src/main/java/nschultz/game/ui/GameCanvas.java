@@ -40,10 +40,7 @@ import nschultz.game.entities.Player;
 import nschultz.game.states.CurrentGameState;
 import nschultz.game.states.GameState;
 import nschultz.game.states.MenuState;
-import nschultz.game.util.AttemptsToEnsureGc;
-import nschultz.game.util.IsPlayableState;
-import nschultz.game.util.NumberNegation;
-import nschultz.game.util.TimeDelayedProcedure;
+import nschultz.game.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,16 +49,16 @@ import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
-public final class GameCanvas extends Canvas {
+public final class GameCanvas {
 
     private final GameLoop gameLoop = new GameLoop(this);
-    private final GraphicsContext brush = getGraphicsContext2D();
+    private GraphicsContext brush;
     private final List<Entity> entities = new CopyOnWriteArrayList<>();
-    private final List<MovingParticle> stars = new ArrayList<>();
-    private final List<AlphaParticle> explosionParticles = new ArrayList<>();
-    private final Random starRandom = new Random(64);
+    private final List<MovingParticle> stars = new ArrayList<>(128);
+    private final List<AlphaParticle> explosionParticles = new ArrayList<>(128);
+    private final Random starRandom = new Random(64L);
     private final TimeDelayedProcedure starDelay = new TimeDelayedProcedure(
-            250, TimeUnit.MILLISECONDS
+            250L, TimeUnit.MILLISECONDS
     );
     private final Dimension2D resolution;
 
@@ -81,29 +78,40 @@ public final class GameCanvas extends Canvas {
     private double delta = 0.009;
     private boolean fadedIn = false;
 
+    private final Result<Canvas> view;
+
     GameCanvas(final Dimension2D resolution) {
         this.resolution = resolution;
-        setFocusTraversable(true);
 
-        setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.P) {
-                pause();
-            }
-            player.onKeyInput(event, true);
-            currentGameState.onKeyInput(event, true);
+        view = new Cache<>(() -> {
+            final var canvas = new Canvas();
+            brush = canvas.getGraphicsContext2D();
+            canvas.setFocusTraversable(true);
+            canvas.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.P) {
+                    pause();
+                }
+                player.onKeyInput(event, true);
+                currentGameState.onKeyInput(event, true);
+            });
+            canvas.setOnKeyReleased(event -> {
+                player.onKeyInput(event, false);
+                currentGameState.onKeyInput(event, false);
+            });
+            return canvas;
         });
-        setOnKeyReleased(event -> {
-            player.onKeyInput(event, false);
-            currentGameState.onKeyInput(event, false);
-        });
+    }
+
+    public Canvas view() {
+        return view.value();
     }
 
     void startGameLoop() {
         if (gameLoop.isRunning())
             return;
 
-        startingWidth = getWidth();
-        startingHeight = getHeight();
+        startingWidth = view().getWidth();
+        startingHeight = view().getHeight();
         player = new Player(new Point2D(startingWidth / 2, (startingHeight / 2) + 64), this);
         entities.add(player);
         new AttemptsToEnsureGc(2).run();
@@ -222,14 +230,14 @@ public final class GameCanvas extends Canvas {
         player = new Player(new Point2D(startingWidth / 2, (startingHeight / 2) + 64), this);
         entities.add(player);
 
-        setOnKeyPressed(event -> {
+        view().setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.P) {
                 pause();
             }
             player.onKeyInput(event, true);
             currentGameState.onKeyInput(event, true);
         });
-        setOnKeyReleased(event -> {
+        view().setOnKeyReleased(event -> {
             player.onKeyInput(event, false);
             currentGameState.onKeyInput(event, false);
         });

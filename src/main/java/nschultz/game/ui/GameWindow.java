@@ -48,10 +48,10 @@ public final class GameWindow {
         if (primaryStage.isShowing())
             return;
 
-        final GameCanvas canvas = new GameCanvas(resolution);
-        final Scene scene = new Scene(new StackPane(canvas));
-        canvas.widthProperty().bind(scene.widthProperty());
-        canvas.heightProperty().bind(scene.heightProperty());
+        final GameCanvas game = new GameCanvas(resolution);
+        final Scene scene = new Scene(new StackPane(game.view()));
+        game.view().widthProperty().bind(scene.widthProperty());
+        game.view().heightProperty().bind(scene.heightProperty());
 
         primaryStage.getIcons().add(
                 SpriteSheet.instance().sprite(1, 1, 16, 16)
@@ -65,10 +65,10 @@ public final class GameWindow {
         primaryStage.setMinWidth(resolution.getWidth());
         primaryStage.setMinHeight(resolution.getHeight());
         primaryStage.iconifiedProperty().addListener((obs, oVal, nVal)
-                -> canvas.pause());
+                -> game.pause());
         primaryStage.show();
 
         new Scaling(scene).apply();
-        canvas.startGameLoop();
+        game.startGameLoop();
     }
 }

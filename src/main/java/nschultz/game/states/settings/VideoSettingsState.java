@@ -58,8 +58,7 @@ public final class VideoSettingsState extends GameState {
     };
 
     private int currentIndex = 0;
-    private final Stage gameWindow =
-            ((Stage) game().getScene().getWindow());
+    private final Stage gameWindow = (Stage) game().view().getScene().getWindow();
 
     VideoSettingsState(final GameCanvas game) {
         super(game);
@@ -69,11 +68,7 @@ public final class VideoSettingsState extends GameState {
             final Player player = (Player) e;
             options[1] = player.isThrustParticlesActive() ? "Disable particles" : "Enable particles";
         });
-        if (game().getEffect() == null) {
-            options[2] = "Enable lighting";
-        } else {
-            options[2] = "Disable lighting";
-        }
+        options[2] = game().view().getEffect() == null ? "Enable lighting" : "Disable lighting";
     }
 
     @Override
@@ -152,16 +147,16 @@ public final class VideoSettingsState extends GameState {
                         toggleParticlesActivation();
 
                     } else if (currentIndex == 2) {
-                        if (game().getEffect() == null) {
-                            new LightFromEast(game()).enlighten();
+                        if (game().view().getEffect() == null) {
+                            new LightFromEast(game().view()).enlighten();
                             options[2] = "Disable lighting";
                         } else {
-                            game().setEffect(null);
+                            game().view().setEffect(null);
                             options[2] = "Enable lighting";
                         }
                     } else {
-                        GameState newState = new SettingsState(game());
-                        newState.setLastGameState(this.lastGameState());
+                        final GameState newState = new SettingsState(game());
+                        newState.setLastGameState(lastGameState());
                         game().switchGameState(newState);
                     }
                     break;
